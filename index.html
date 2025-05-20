@@ -1,18 +1,40 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="javascript" href="script.js">
-    <script>
-        const button = document.querySelector('button');
-        button.addEventListener('click', function() {
-            alert('Кнопка нажата!');
-        });
-    </script>
+    <title>Кастомное событие</title>
 </head>
 <body>
-    <button onclick="alert('Кнопка нажата!')">Нажми меня</button>
+
+    <button id="trigger">Запустить кастомное событие</button>
+    <div id="eventArea" style="margin-top: 20px; padding: 20px; border: 1px solid black;">
+        Здесь будет отображаться информация о событии.
+    </div>
+
+    <script>
+        // Создаем кастомное событие
+        const customEvent = new CustomEvent('myCustomEvent', {
+            detail: { message: 'Привет! Это кастомное событие.' }, // Дополнительные данные
+            bubbles: true, // Событие будет всплывать
+            cancelable: true // Можно отменить действие по умолчанию
+        });
+
+        // Элемент, на котором будем слушать событие
+        const eventArea = document.getElementById('eventArea');
+
+        // Обработчик кастомного события
+        eventArea.addEventListener('myCustomEvent', (event) => {
+            const message = event.detail.message; // Получаем данные из события
+            eventArea.textContent = message; // Отображаем сообщение в области
+        });
+
+        // Инициируем кастомное событие по клику на кнопку
+        const triggerButton = document.getElementById('trigger');
+        triggerButton.addEventListener('click', () => {
+            eventArea.dispatchEvent(customEvent); // Инициируем событие
+        });
+    </script>
+
 </body>
 </html>
